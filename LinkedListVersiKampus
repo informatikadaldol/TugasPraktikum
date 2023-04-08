@@ -1,0 +1,110 @@
+#include<iostream>
+using namespace std;
+
+struct node{
+    char nama[20];
+    int umur;
+    float tinggi;
+    node* next;
+};
+
+node* awal_ptr = NULL;
+node* posisi;
+int pilih;
+
+//fungsi tambah simpul di akhir
+void tambah_simpul_akhir(){
+    node *baru, *bantu;
+    //isi data
+    baru = new node();
+    cout<<"Nama   : "; cin>>baru->nama;
+    cout<<"Umur   : "; cin>>baru->umur;
+    cout<<"Tinggi : "; cin>>baru->tinggi;
+    baru->next = NULL;
+    //inisialisasi pointer ketika kosong
+    if (awal_ptr == NULL){
+        awal_ptr = baru;
+        posisi = awal_ptr;
+    } else {
+        bantu = awal_ptr;
+        while (bantu->next != NULL){
+            bantu = bantu->next;
+        }
+        bantu->next = baru;
+    }
+}
+
+//fungsi menampilkan senarai
+void tampil_senarai(){
+    node* bantu;
+    bantu = awal_ptr;
+    if (bantu == NULL){
+        cout<<"List Masih Kosong"<<endl;
+    } else{
+        cout<<endl;
+        while (bantu != NULL){
+            cout<<"Nama   : "<<bantu->nama<<" ";
+            cout<<"Umur   : "<<bantu->umur<<" ";
+            cout<<"Tinggi : "<<bantu->tinggi<<endl;
+            bantu = bantu->next;
+        }
+        cout<<"\nAkhir List"<<endl;
+    }
+}
+
+//fungsi untuk menghapus simpul di akhir
+void hapus_simpul_akhir(){
+    node *hapus, *bantu;
+    if (awal_ptr == NULL){
+        cout<<"List kosong!"<<endl;
+    } else {
+        hapus = awal_ptr;
+        if (hapus->next == NULL){
+            delete hapus;
+            awal_ptr = NULL;
+        } else {
+            while (hapus->next != NULL){
+                bantu = hapus;
+                hapus = hapus->next;
+            }
+            delete hapus;
+            bantu->next = NULL;
+        }
+    }
+}
+
+//fungsi untuk menghapus simpul di awal
+void hapus_simpul_awal(){
+    node *hapus;
+    hapus = awal_ptr;
+    awal_ptr =  awal_ptr->next;
+    delete hapus;
+}
+
+//fungsi utama
+int main(){
+    awal_ptr = NULL;
+    do{
+        system("cls");
+        tampil_senarai();
+        cout<<"\n==========Menu Pilihan :==========\n";
+        cout<<"1. Tambah simpul di akhir\n";
+        cout<<"2. Hapus simpul di akhir\n";
+        cout<<"3. Hapus simpul di awal\n";
+        cout<<"0. Keluar Program\n";
+        cout<<"Silahkan Pilih (0-3): "; cin>>pilih;
+        switch (pilih){
+            case 1 :
+                tambah_simpul_akhir();
+                break;
+            case 2 :
+                hapus_simpul_akhir();
+                break;
+            case 3 :
+                hapus_simpul_awal();
+                break;
+        }
+        cin.get();
+    } while (pilih != 0);
+    return 0;
+}
