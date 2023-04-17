@@ -1,0 +1,24 @@
+#include<iostream>
+#include<unistd.h>
+using namespace std;
+
+#define LIMIT 10
+
+struct stack{
+	int top;
+	int *value[LIMIT];
+};
+
+
+void initStack( Stack *stack ){
+	stack->top = -1;
+	memset ( stack->value,0,sizeof(stack->value));
+}
+
+bool isEmptyStack( Stack *stack ){
+	if ( stack->top != -1 ){
+		return false;
+	} else {
+		return true;
+	}
+}
