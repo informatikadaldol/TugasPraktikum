@@ -1,1 +1,75 @@
 
+#include <iostream>
+using namespace std;
+
+class Stack {
+  private:
+    int top;
+    int capacity;
+    int* array;
+  public:
+    Stack(int capacity) {
+        this->capacity = capacity;
+        this->top = -1;
+        this->array = new int[capacity];
+    }
+    ~Stack() {
+        delete[] array;
+    }
+    bool isEmpty() {
+        return top == -1;
+    }
+    bool isFull() {
+        return top == capacity - 1;
+    }
+    void push(int item) {
+        if (isFull()) {
+            cout << "Stack overflow\n";
+            return;
+        }
+        top++;
+        array[top] = item;
+    }
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack underflow\n";
+            return -1;
+        }
+        int item = array[top];
+        top--;
+        return item;
+    }
+};
+
+void menaraHanoi(int n, Stack* dari, Stack* ke, Stack* bantu)
+{
+    if (n == 1) {
+        int item = dari->pop();
+        ke->push(item);
+        cout << "Pindahkan batu " << item << " dari Menara " << dari << " ke Menara " << ke << endl;
+        return;
+    }
+    menaraHanoi(n - 1, dari, bantu, ke);
+    int item = dari->pop();
+    ke->push(item);
+    cout << "Pindahkan batu " << item << " dari Menara " << dari << " ke Menara " << ke << endl;
+    menaraHanoi(n - 1, bantu, ke, dari);
+}
+
+int main()
+{
+    int n = 3; // jumlah lempengan
+    Stack* dari = new Stack(n);
+    dari->push(100);
+    dari->push(75);
+    dari->push(50);
+    Stack* ke = new Stack(n);
+    Stack* bantu = new Stack(n);
+
+    menaraHanoi(n, dari, ke, bantu);
+
+    delete dari;
+    delete ke;
+    delete bantu;
+    return 0;
+}
